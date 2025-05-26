@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel</title>
+
+  <!-- Tailwind CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Font Awesome Free -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css"
+  />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100">
+  <div class="flex min-h-screen">
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-white shadow-md rounded-tr-3xl">
+      <div class="p-6 text-center border-b">
+        <!-- FontAwesome user-circle as avatar -->
+        <i
+          class="fas fa-user-circle text-gray-400 mx-auto mb-2"
+          style="font-size:5rem;"
+        ></i>
+        <h2 class="text-lg font-semibold">Maxwell Stone</h2>
+        <p class="text-sm text-gray-500">Admin</p>
+      </div>
+      <nav class="mt-6">
+        <ul>
+          <li class="px-6 py-3 hover:bg-indigo-50 bg-indigo-100 rounded-r-full">
+            <a href="#" data-section="dashboard" class="flex items-center text-indigo-700">
+              <i class="fas fa-chart-bar mr-3"></i>Dashboard
+            </a>
+          </li>
+          <li class="px-6 py-3 hover:bg-gray-200 rounded-r-full">
+            <a href="#" data-section="users" class="flex items-center">
+              <i class="fas fa-users mr-3"></i>Users
+            </a>
+          </li>
+          <li class="px-6 py-3 hover:bg-gray-200 rounded-r-full">
+            <a href="#" data-section="book-listings" class="flex items-center">
+              <i class="fas fa-book-open mr-3"></i>Book Listings
+            </a>
+          </li>
+          <li class="px-6 py-3 hover:bg-gray-200 rounded-r-full">
+            <a href="#" data-section="reports" class="flex items-center">
+              <i class="fas fa-clipboard-list mr-3"></i>Reports
+            </a>
+          </li>
+          <li class="px-6 py-3 hover:bg-gray-200 rounded-r-full">
+            <a href="#" data-section="promotions" class="flex items-center">
+              <i class="fas fa-bullhorn mr-3"></i>Promotions
+            </a>
+          </li>
+          <li class="px-6 py-3 hover:bg-gray-200 rounded-r-full">
+            <a href="#" data-section="notifications" class="flex items-center">
+              <i class="fas fa-bell mr-3"></i>Notifications
+            </a>
+          </li>
+          <li class="px-6 py-3 hover:bg-gray-200 rounded-r-full">
+            <a href="#" data-section="logs" class="flex items-center">
+              <i class="fas fa-sync-alt mr-3"></i>Logs
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 p-6 bg-indigo-50">
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="section">
+        <div class="flex justify-between items-center mb-6">
+          <h1 class="text-3xl font-bold">Dashboard</h1>
+          <div class="space-x-2">
+            <button class="px-4 py-2 rounded-full bg-indigo-600 text-white">Weekly</button>
+            <button class="px-4 py-2 rounded-full bg-white text-gray-500">Monthly</button>
+          </div>
+        </div>
+
+        <!-- Metrics Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
+          <div class="bg-white p-6 shadow rounded-lg relative">
+            <i class="fas fa-ellipsis-v absolute top-4 right-4 text-gray-400"></i>
+            <h2 class="text-sm text-gray-500">Total Users</h2>
+            <p id="totalUsers" class="text-3xl font-bold my-2">654</p>
+            <p class="text-sm text-green-500 flex items-center">
+              <i class="fas fa-arrow-up mr-1"></i>7 From Last Week
+            </p>
+          </div>
+          <div class="bg-white p-6 shadow rounded-lg relative">
+            <i class="fas fa-ellipsis-v absolute top-4 right-4 text-gray-400"></i>
+            <h2 class="text-sm text-gray-500">Total Books Listed</h2>
+            <p id="totalBooks" class="text-3xl font-bold my-2">2359</p>
+            <p class="text-sm text-green-500 flex items-center">
+              <i class="fas fa-arrow-up mr-1"></i>12 From Last Week
+            </p>
+          </div>
+          <div class="bg-white p-6 shadow rounded-lg relative">
+            <i class="fas fa-ellipsis-v absolute top-4 right-4 text-gray-400"></i>
+            <h2 class="text-sm text-gray-500">Total Sales/Exchanges Completed</h2>
+            <p id="salesExchanges" class="text-3xl font-bold my-2">489</p>
+            <p class="text-sm text-green-500 flex items-center">
+              <i class="fas fa-arrow-up mr-1"></i>37 From Last Week
+            </p>
+          </div>
+          <div class="bg-white p-6 shadow rounded-lg">
+            <h2 class="text-sm text-gray-500">Pending Book Approvals</h2>
+            <p id="pendingApprovals" class="text-3xl font-bold my-2">13</p>
+          </div>
+          <div class="bg-white p-6 shadow rounded-lg">
+            <h2 class="text-sm text-gray-500">Pending Reports</h2>
+            <p id="pendingReports" class="text-3xl font-bold my-2">3</p>
+          </div>
+        </div>
+
+        <!-- Recent Tables + Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-6">
+            <!-- Recent Books -->
+            <div class="bg-white p-6 shadow rounded-lg">
+              <h2 class="text-lg font-semibold mb-4">Recent Books</h2>
+              <table class="w-full text-sm text-left">
+                <thead class="bg-gray-100">
+                  <tr>
+                    <th class="px-4 py-2">Book Title</th>
+                    <th class="px-4 py-2">Author</th>
+                    <th class="px-4 py-2">Owner</th>
+                    <th class="px-4 py-2">Status</th>
+                    <th class="px-4 py-2">Uploaded Date</th>
+                  </tr>
+                </thead>
+                <tbody id="booksTable" class="divide-y"></tbody>
+              </table>
+            </div>
+            <!-- Recent Users -->
+            <div class="bg-white p-6 shadow rounded-lg">
+              <h2 class="text-lg font-semibold mb-4">Recent User Registrations</h2>
+              <table class="w-full text-sm text-left">
+                <thead class="bg-gray-100">
+                  <tr>
+                    <th class="px-4 py-2">Username</th>
+                    <th class="px-4 py-2">Email</th>
+                    <th class="px-4 py-2">Registered Date</th>
+                    <th class="px-4 py-2">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTable" class="divide-y"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="space-y-6">
+            <div class="bg-white p-6 shadow rounded-lg">
+              <h2 class="text-lg font-semibold mb-4">Weekly User Growth</h2>
+              <canvas id="userGrowthChart"></canvas>
+            </div>
+            <div class="bg-white p-6 shadow rounded-lg">
+              <h2 class="text-lg font-semibold mb-4">Weekly Book Uploads</h2>
+              <canvas id="bookUploadsChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- USERS SECTION -->
+      <section id="users" class="section hidden">
+        <h1 class="text-2xl font-semibold mb-4">Users</h1>
+        <div class="flex items-center justify-between mb-4">
+          <input
+            type="text"
+            id="userSearch"
+            placeholder="Search users..."
+            class="border p-2 rounded w-1/3"
+          />
+          <div class="space-x-2">
+            <button class="px-4 py-2 bg-green-500 text-white rounded" data-status="All">All</button>
+            <button class="px-4 py-2 bg-yellow-400 text-white rounded" data-status="Pending">Pending</button>
+            <button class="px-4 py-2 bg-red-500 text-white rounded" data-status="Suspended">Suspended</button>
+          </div>
+        </div>
+        <table class="min-w-full bg-white shadow rounded text-sm">
+          <thead class="bg-gray-50 text-gray-700">
+            <tr>
+              <th class="p-3">Username</th>
+              <th class="p-3">Email</th>
+              <th class="p-3">Registered Date</th>
+              <th class="p-3">Status</th>
+              <th class="p-3">Total Books Listed</th>
+            </tr>
+          </thead>
+          <tbody id="usersListTable" class="divide-y"></tbody>
+        </table>
+      </section>
+
+      <!-- BOOK LISTINGS SECTION -->
+      <section id="book-listings" class="section hidden">
+        <h1 class="text-2xl font-semibold mb-4">Book Listings</h1>
+        <div class="flex items-center justify-between mb-4">
+          <input
+            type="text"
+            id="bookSearch"
+            placeholder="Search books..."
+            class="border p-2 rounded w-1/3"
+          />
+          <div class="space-x-2">
+            <button class="px-4 py-2 bg-blue-500 text-white rounded" data-status="All">All</button>
+            <button class="px-4 py-2 bg-green-500 text-white rounded" data-status="Approved">Approved</button>
+            <button class="px-4 py-2 bg-yellow-400 text-white rounded" data-status="Pending">Pending</button>
+            <button class="px-4 py-2 bg-red-500 text-white rounded" data-status="Suspended">Suspended</button>
+          </div>
+        </div>
+        <table class="min-w-full bg-white shadow rounded text-sm">
+          <thead class="bg-gray-50 text-gray-700">
+            <tr>
+              <th class="p-3">Title</th>
+              <th class="p-3">Author</th>
+              <th class="p-3">Owner</th>
+              <th class="p-3">Status</th>
+              <th class="p-3">Uploaded</th>
+            </tr>
+          </thead>
+          <tbody id="booksListTable" class="divide-y"></tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <!-- Main JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>
